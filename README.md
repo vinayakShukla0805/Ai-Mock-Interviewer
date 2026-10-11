@@ -1,7 +1,6 @@
-# AI - MOCK INTERVIEWER 
+## Backend Folder Structure
 
-### Backend Folder Structure
-
+```text
 backend/
 ├── src/
 │   ├── config/
@@ -75,3 +74,26 @@ backend/
 │   └── interview.test.js
 ├── .env
 └── package.json
+```
+
+### Directory Overview
+
+- **`config/`** — Database connection and AI configuration.
+- **`models/`** — Mongoose schemas and database models.
+- **`controllers/`** — Handle incoming requests and send responses.
+- **`routes/`** — Define API endpoints.
+- **`services/`** — Contain business logic and reusable operations.
+- **`ai/`** — LLM integration, prompt templates, question generation, answer evaluation, and AI workflows.
+- **`middleware/`** — Authentication, error handling, file uploads, and rate limiting.
+- **`validators/`** — Validate request data.
+- **`utils/`** — Shared utility functions and error-handling helpers.
+- **`app.js`** — Configure Express, middleware, and routes.
+- **`server.js`** — Initialize the server and start listening for requests.
+- **`uploads/`** — Store uploaded files when local file storage is used.
+- **`tests/`** — Authentication and interview workflow tests.
+- **`.env`** — Store environment variables and API credentials.
+- **`package.json`** — Manage dependencies and npm scripts.
+
+### Security Note
+
+Do not commit `.env` to GitHub. Add it to `.gitignore` and provide a `.env.example` file containing placeholder values for the required environment variables.
