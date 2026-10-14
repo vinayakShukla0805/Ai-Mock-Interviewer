@@ -2,8 +2,6 @@ import multer from "multer";
 
 // Useful when immediately processing or uploading a file to cloud storage.
 // const storage = multer.memoryStorage();
-
-
 // Disk Storage to Store the Resume
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -17,7 +15,7 @@ const storage = multer.diskStorage({
 
 // Upload Resume
 const upload = multer({
-  storage,
+  storage : storage,
   fileFilter: (req, file, cb) => {
     if (
       file.mimetype !== "application/pdf" ||
@@ -28,5 +26,30 @@ const upload = multer({
     cb(null, true);
   },
 });
+
+
+// const storage=multer.diskStorage({
+//     destination: (req, file, cb)=>{
+//         cb(null, "uploaded_Resume/");
+//     },
+//     filename: (req, file, cb)=>{
+//         cb(null, Date.now()+"-"+ file.originalname);
+//     }
+// });
+
+// const upload=multer({
+//     storage: storage,
+//     fileFilter: (req, file, cb)=>{
+//         if(file.mimetype==="application/pdf"){
+//             cb(null, true);
+//         }else{
+//             cb(new Error (" Only pdf files are allowed"))
+//         }
+//     }
+// });
+
+
+
+
 
 export default upload;

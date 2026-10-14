@@ -2,6 +2,7 @@ import resumeModel from "../models/resumeModel.js";
 import { extractResumeData } from "../services/resumeservice.js";
 import fs from "node:fs/promises";
 
+
 const uploadResume = async function uploadResume(req, res) {
   try {
     if (!req.file) {
@@ -50,7 +51,7 @@ const uploadResume = async function uploadResume(req, res) {
       success: false,
       message: "Unable to process resume",
     });
-  } finally {
+   } finally {
     // Remove the temporary uploaded file after processing.
     if (req.file?.path) {
       try {
@@ -59,6 +60,7 @@ const uploadResume = async function uploadResume(req, res) {
         console.error("Temporary resume cleanup failed:", error.message);
       }
     }
+
   }
 }
 

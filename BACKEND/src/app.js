@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/authRoutes.js"
 import resumeRoutes from "./routes/resumeRoutes.js"
+import interviewRoutes from "./routes/interviewRoutes.js"
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // routes
 app.use("/api/user",userRoutes);
 app.use("/api/resume", resumeRoutes);
+app.use("/api/interview", interviewRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({
