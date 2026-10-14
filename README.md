@@ -9,8 +9,8 @@ backend/
 │   │
 │   ├── models/
 │   │   ├── userModels.js
-│   │   ├── Resume.js
-│   │   ├── Interview.js
+│   │   ├── ResumeModel.js
+│   │   ├── InterviewModel.js
 │   │   ├── Question.js
 │   │   └── Evaluation.js
 │   │
