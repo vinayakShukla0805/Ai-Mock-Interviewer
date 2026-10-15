@@ -1,36 +1,37 @@
+
 import mongoose from "mongoose";
 
-// Schema for each answer submitted during a session
-const answerSchema = new mongoose.Schema(
+const evaluationSchema = new mongoose.Schema(
   {
-    questionId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
-    answerText: {
-      type: String,
-      trim: true,
-      default: "",
-    },
-
-    answeredAt: {
-      type: Date,
-      default: Date.now,
-    },
-
-    timeTaken: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
-
     score: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 10,
+    },
+    correctness: {
       type: Number,
       min: 0,
       max: 10,
-      default: null,
     },
-
+    technicalDepth: {
+      type: Number,
+      min: 0,
+      max: 10,
+    },
+    clarity: {
+      type: Number,
+      min: 0,
+      max: 10,
+    },
+    strengths: {
+      type: [String],
+      default: [],
+    },
+    weaknesses: {
+      type: [String],
+      default: [],
+    },
     feedback: {
       type: String,
       default: "",
@@ -39,7 +40,63 @@ const answerSchema = new mongoose.Schema(
   { _id: false }
 );
 
-// Main interview session schema
+const sessionQuestionSchema = new mongoose.Schema(
+  {
+    // Reference to the original generated question
+    originalQuestionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
+
+    questionText: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    category: {
+      type: String,
+      default: "Technical",
+    },
+
+    difficulty: {
+      type: String,
+      default: "Medium",
+    },
+
+    expectedAnswer: {
+      type: String,
+      default: "",
+    },
+
+    answer: {
+      type: String,
+      default: "",
+    },
+
+    evaluation: {
+      type: evaluationSchema,
+      default: undefined,
+    },
+
+    isFollowUp: {
+      type: Boolean,
+      default: false,
+    },
+
+    parentQuestionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
+
+    answeredAt: {
+      type: Date,
+      default: null,
+    },
+  },
+  { timestamps: true }
+);
+
 const sessionSchema = new mongoose.Schema(
   {
     user: {
@@ -53,24 +110,22 @@ const sessionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Interview",
       required: true,
-      index: true,
     },
 
-    status: {
-      type: String,
-      enum: ["In Progress", "Completed", "Abandoned"],
-      default: "In Progress",
+    questions: {
+      type: [sessionQuestionSchema],
+      default: [],
     },
 
     currentQuestionIndex: {
       type: Number,
       default: 0,
-      min: 0,
     },
 
-    answers: {
-      type: [answerSchema],
-      default: [],
+    status: {
+      type: String,
+      enum: ["in_progress", "completed", "abandoned"],
+      default: "in_progress",
     },
 
     startedAt: {
@@ -83,22 +138,22 @@ const sessionSchema = new mongoose.Schema(
       default: null,
     },
 
-    totalScore: {
+    overallScore: {
       type: Number,
-      min: 0,
       default: null,
     },
 
-    overallFeedback: {
-      type: String,
-      default: "",
+    report: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-// Export the model
-const Session = mongoose.model("Session", sessionSchema);
-export default Session;
+const InterviewSession = mongoose.model(
+  "InterviewSession",
+  sessionSchema
+);
+
+export default InterviewSession;

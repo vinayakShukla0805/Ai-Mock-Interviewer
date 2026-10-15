@@ -3,6 +3,7 @@ import cors from "cors";
 import userRoutes from "./routes/authRoutes.js"
 import resumeRoutes from "./routes/resumeRoutes.js"
 import interviewRoutes from "./routes/interviewRoutes.js"
+import sessionRoutes from "./routes/sessionRoutes.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/user",userRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/interview", interviewRoutes);
+app.use("/api/session", sessionRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({
