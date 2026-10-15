@@ -170,4 +170,95 @@ const createInterview = async (req, res) => {
 };
 
 
-export default createInterview;
+const getInterviews = async (req, res) => {
+  try {
+    const interviews = await Interview.find({
+      user: req.user._id,
+    }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      count: interviews.length,
+      interviews,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// GET /api/interviews/:id
+const getInterviewById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid interview ID",
+      });
+    }
+
+    // Find by BOTH interview ID and authenticated user
+    const interview = await Interview.findOne({
+      _id: id,
+      user: req.user._id,
+    });
+
+    if (!interview) {
+      return res.status(404).json({
+        success: false,
+        message: "Interview not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      interview,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// DELETE /api/interviews/:id
+const deleteInterview = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid interview ID",
+      });
+    }
+
+    const interview = await Interview.findOneAndDelete({
+      _id: id,
+      user: req.user._id,
+    });
+
+    if (!interview) {
+      return res.status(404).json({
+        success: false,
+        message: "Interview not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Interview deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export { createInterview ,getInterviewById ,getInterviews ,deleteInterview};
