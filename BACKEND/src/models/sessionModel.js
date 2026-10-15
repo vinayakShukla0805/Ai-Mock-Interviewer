@@ -121,6 +121,23 @@ const sessionSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    followUpCounts: {
+      type: Map,
+      of: Number,
+      default: () => new Map(),
+    },
+    originalQuestionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
+    isFollowUp: {
+      type: Boolean,
+      default: false,
+    },
+    parentQuestionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
 
     status: {
       type: String,
