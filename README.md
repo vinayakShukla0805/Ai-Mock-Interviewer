@@ -97,3 +97,8 @@ backend/
 ### Security Note
 
 Do not commit `.env` to GitHub. Add it to `.gitignore` and provide a `.env.example` file containing placeholder values for the required environment variables.
+
+
+# to run ai service
+- source .venv/bin/activate
+- python -m uvicorn main:app --reload --port 8000
